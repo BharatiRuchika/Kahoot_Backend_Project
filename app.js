@@ -1,7 +1,4 @@
 require('dotenv').config();
-// const jwt = require("jsonwebtoken");
-// const { addUser, removeUser, getUser,
-  // getUsersInRoom } = require("./users");
 const express = require('express')
     ,session = require('express-session')
     ,jwt = require("jsonwebtoken")
@@ -10,47 +7,19 @@ const express = require('express')
     ,massive = require('massive')
     ,bodyParser = require('body-parser')
     ,{Quiz} = require('./utils/quiz')
-
-    // ,{Quiz} = require('./utils/quiz')
-    // const { addUser, removeUser, getUser,
-    //   getUsersInRoom } = require("./users");
-
-const {
-    SERVER_PORT,
-    SESSION_SECRET,
-    DOMAIN,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    CALLBACK_URL,
-    CONNECTION_STRING,
-    FRONTEND_URL
-} =  process.env;
-
-// const {
-//   userJoin,
-//   getCurrentUser,
-//   userLeave,
-//   getRoomUsers,
-//   addHost
-// } = require('./users');
-
-
 var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var addQuizRouter = require('./routes/addQuiz');
 var quizQuestionsRouter = require('./routes/quizQuestions');
 // const http = require("http");
-
 var mongo = require("./connection");
 const { Socket } = require('socket.io');
 mongo.connect();
-
 var app = express();
 app.use(cors({ credentials: true }));
 // const socket = require('socket.io');
@@ -61,13 +30,13 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
-const port = 5000;
+// const port = 5000;
 const http = require("http").createServer();
 const io = require("socket.io")(http);
 
-
-http.listen(port, () => {
-  console.log("Server Is Running Port: " + port);
+var http_port = process.env.HTTP_PORT;
+http.listen(http_port, () => {
+  console.log("Server Is Running Port: " + http_port);
 });
 const users = {};
 var clients = {};
@@ -75,13 +44,9 @@ var hosts={};
 var socketArray=[];
 var hostObject={};
 var hostArray=[];
-// let currentConnections = {};
 var host=0;
-// var hostSocketArray = {};
 io.on('connection', socket => {
- 
-  // clients[socket.id] = socket;
- console.log("socketid",socket.id);
+    console.log("socketid",socket.id);
 //  currentConnections[socket.id] = { socket: socket };
     console.log("connection established");
     // io.sockets.emit('conn')
@@ -231,67 +196,6 @@ socket.on("disconnect",function(){
  
  
 })
-
-// app.use(express.static(`${__dirname}/../build`))
-// app.use(bodyParser.json())
-
-// massive(CONNECTION_STRING).then(db =>{app.set('db',db)} )
-
-// app.use(session({
-//   secret:SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: true
-// }))
-
-///////auth0
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new Auth0Stratagy({
-//   domain:DOMAIN,
-//   clientID:CLIENT_ID,
-//   clientSecret:CLIENT_SECRET,
-//   callbackURL:CALLBACK_URL,
-//   scope:'openid profile'
-// }, (accessToken, refreshToken, extraParams, profile, done)=> {
-//   //DB calls here 
-//   const db = app.get('db');
-//   let {id, displayName, picture} = profile
-//   db.get_user([id])
-//       .then(user=>{
-//           if(user[0]){
-//               done(null,user[0].id)
-//           }else{db.add_user([displayName, id])
-//               .then((createdUser)=>{
-//                   done(null, createdUser[0].id)
-//               })
-//           }
-//       })
-// }))
-
-// passport.serializeUser( (primaryKeyID,done)=>{
-//   done(null, primaryKeyID)
-// })
-// passport.deserializeUser( (primaryKeyID,done)=>{
-//   app.get('db')
-//       .find_session_user([primaryKeyID])
-//       .then(user=>{
-//           done(null, user[0])
-//       }) 
-// })
-
-// function check(req,res,next) {
-//   if(req.user){res.redirect(`${process.env.FRONTEND_URL}#/host`)
-//   } else {next()}
-// }
-// app.use( (req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3001"); //The ionic server
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -300,9 +204,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use((err,req,res,next)=>{
-//   next();
-// })
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use((req,res,next)=>{
