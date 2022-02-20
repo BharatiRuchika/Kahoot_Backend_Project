@@ -236,9 +236,18 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 // Step 2:
 
 
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
+
 if(process.env.NODE_ENV==="production"){
-  app.use(express.static("my_final_project_front/build"));
+  // app.use(express.static("my_final_project_front/build"));
   // const path = require("path");
+  app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
   // app.get("*",(req,res)=>{
   //   res.sendFile(path.resolve,__dirname,'my_final_project_front','build','index.html');
   // })

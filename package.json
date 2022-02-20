@@ -2,6 +2,7 @@
   "name": "my-final-project",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://testappah.herokuapp.com",
   "scripts": {
     "start": "node app.js",
     "heroku postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix my_final_project_front && npm run build --prefix my_final_project_front"
