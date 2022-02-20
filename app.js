@@ -232,12 +232,16 @@ app.use('/users', usersRouter);
 // })
 app.use('/quiz', addQuizRouter);
 app.use('/quizquestions',quizQuestionsRouter);
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+// Step 2:
+
+
 if(process.env.NODE_ENV==="production"){
   app.use(express.static("my_final_project_front/build"));
-  const path = require("path");
-  app.get("*",(req,res)=>{
-    res.sendFile(path.resolve,__dirname,'my_final_project_front','build','index.html');
-  })
+  // const path = require("path");
+  // app.get("*",(req,res)=>{
+  //   res.sendFile(path.resolve,__dirname,'my_final_project_front','build','index.html');
+  // })
 }
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
