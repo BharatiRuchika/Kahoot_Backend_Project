@@ -244,7 +244,7 @@ app.get('*', (req, res) => {
 if(process.env.NODE_ENV==="production"){
   // app.use(express.static("my_final_project_front/build"));
   // const path = require("path");
-  app.use(express.static(path.join(__dirname, 'my_final_project_front/build')))
+  app.use(express.static(path.join(__dirname, './my_final_project_front/build')))
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './my_final_project_front/build'))
 })
