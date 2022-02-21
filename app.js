@@ -232,7 +232,7 @@ app.use('/users', usersRouter);
 // })
 app.use('/quiz', addQuizRouter);
 app.use('/quizquestions',quizQuestionsRouter);
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+
 // Step 2:
 
 
