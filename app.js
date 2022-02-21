@@ -212,22 +212,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use((req,res,next)=>{
-//   console.log("im here");
-//   const token = req.headers["auth-token"];
-//   console.log("token",token);
-//   if(token){
-//     console.log("im here also");
-//     try{
-//     req.user = jwt.verify(token,"GUvi!jdks");
+ app.use((req,res,next)=>{
+   console.log("im here");
+  const token = req.headers["auth-token"];
+  console.log("token",token);
+  if(token){
+   console.log("im here also");
+   try{
+  req.user = jwt.verify(token,"GUvi!jdks");
    
-//     next();
-//     }catch(err){
-//       res.sendStatus(401);
-//     }
-//   }else{
-//     res.sendStatus(401);
-//   }
+ next();
+ }catch(err){
+  res.sendStatus(401);
+     }
+   }else{
+    res.sendStatus(401);
+   }
   
 // })
 app.use('/quiz', addQuizRouter);
@@ -236,22 +236,8 @@ app.use(express.static(path.resolve(__dirname, "./client/build")));
 // Step 2:
 
 
-app.use(express.static(path.join(__dirname, '../build')))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build'))
-})
 
-if(process.env.NODE_ENV==="production"){
-  // app.use(express.static("my_final_project_front/build"));
-  // const path = require("path");
-  app.use(express.static(path.join(__dirname, './my_final_project_front/build')))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './my_final_project_front/build'))
-})
-  // app.get("*",(req,res)=>{
-  //   res.sendFile(path.resolve,__dirname,'my_final_project_front','build','index.html');
-  // })
-}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
